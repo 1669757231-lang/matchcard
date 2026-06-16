@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, initial-scale=1.0" />
+  <title>MatchMate 结果卡片</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+    :root {
+      --theme: {{THEME_COLOR}};
+      --dark: {{DARK_COLOR}};
+      --soft-bg: {{BG_COLOR}};
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 1080px;
+      height: 1440px;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
+      overflow: hidden;
+      color: #1f2937;
+      background: radial-gradient(130% 130% at 0% 0%, rgba(255,255,255,0.65), rgba(255,255,255,0) 45%),
+                  linear-gradient(150deg, #f1f5f9 0%, var(--soft-bg) 44%, #f8fbff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .card {
+      width: 1048px;
+      height: 1408px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(255,255,255,0.55);
+      box-shadow: 0 20px 55px rgba(15, 23, 42, 0.2);
+      backdrop-filter: blur(6px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 2px solid transparent;
+      border-radius: 24px;
+      background: linear-gradient(140deg, color-mix(in srgb, var(--theme) 28%, transparent 72%), color-mix(in srgb, var(--dark) 16%, transparent 84%));
+      -webkit-mask:
+        linear-gradient(90deg, #000 0 0) padding-box,
+        linear-gradient(90deg, #000 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0.45;
+    }
+
+    .layout {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      padding: 36px 48px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .badge {
+      position: absolute;
+      top: 28px;
+      right: 44px;
+      z-index: 2;
+      background: linear-gradient(135deg, var(--theme), var(--dark));
+      color: #fff;
+      padding: 7px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, color-mix(in srgb, var(--theme) 18%, #ffffff 82%), color-mix(in srgb, var(--dark) 14%, #ffffff 86%));
+      border: 1px solid rgba(203, 213, 225, 0.58);
+      border-radius: 18px;
+      padding: 24px 26px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 18px;
+      position: relative;
+      overflow: hidden;
+      min-height: 136px;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -72px;
+      bottom: -92px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.5);
+      transform: rotate(8deg);
+    }
+
+    .hero h2 {
+      font-size: 24px;
+      color: #64748b;
+      font-weight: 500;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .hero h1 {
+      font-size: 52px;
+      line-height: 1;
+      color: var(--dark);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      font-weight: 900;
+      text-wrap: balance;
+    }
+
+    .hero .name-en {
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--theme);
+      letter-spacing: 4px;
+      margin-bottom: 10px;
+    }
+
+    .meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: #475569;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(71,85,105,0.2);
+      border-radius: 999px;
+      padding: 6px 12px;
+      margin-top: 4px;
+    }
+
+    .logo {
+      color: #64748b;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .logo-icon {
+      font-size: 42px;
+      line-height: 1;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.12));
+    }
+
+    .main {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 20px;
+      overflow: hidden;
+    }
+
+    .left {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 0;
+    }
+
+    .avatar-card {
+      background: #fff;
+      border-radius: 18px;
+      border: 1px solid rgba(203, 213, 225, 0.7);
+      box-shadow: 0 12px 28px rgba(15,23,42,0.12);
+      overflow: hidden;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      aspect-ratio: 4 / 4.6;
+      background: linear-gradient(170deg, color-mix(in srgb, var(--theme) 20%, #ffffff 80%), color-mix(in srgb, var(--dark) 18%, #ffffff 82%));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+    }
+
+    .avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 12px;
+    }
+
+    .avatar-wrap .avatar-initial {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      text-transform: uppercase;
+    }
+
+    .avatar-wrap.no-photo .avatar-initial {
+      display: flex;
+    }
+
+    .player-meta {
+      padding: 10px 14px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #475569;
+      border-top: 1px solid rgba(226,232,240,0.8);
+      background: linear-gradient(180deg, #fff, #f8fbff);
+    }
+
+    .player-meta .tag {
+      color: #334155;
+      font-weight: 600;
+      font-size: 13px;
+      background: color-mix(in srgb, var(--theme) 16%, white 84%);
+      padding: 5px 9px;
+      border-radius: 999px;
+    }
+
+    .intro {
+      background: linear-gradient(135deg, color-mix(in srgb, var(--theme) 10%, white 90%), #f9fbff);
+      border-radius: 16px;
+      border: 1px solid rgba(203, 213, 225, 0.65);
+      padding: 16px;
+      color: #1f2937;
+      text-align: center;
+      min-height: 0;
+    }
+
+    .intro .quote {
+      font-size: 27px;
+      line-height: 1.45;
+      color: var(--dark);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .intro .desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #64748b;
+    }
+
+    .right {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .panel {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid rgba(203, 213, 225, 0.8);
+      padding: 13px 14px;
+      box-shadow: 0 8px 20px rgba(15,23,42,0.06);
+      min-height: 0;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed rgba(203, 213, 225, 0.85);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-title::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--theme), var(--dark));
+      display: inline-block;
+    }
+
+    .radar-svg {
+      display: block;
+      width: 100%;
+      max-width: 390px;
+      margin: 0 auto;
+      height: auto;
+    }
+
+    .metrics {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: 74px 1fr 32px;
+      gap: 8px;
+      align-items: center;
+      font-size: 12px;
+      color: #334155;
+    }
+
+    .metric-label {
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .bar-track {
+      height: 10px;
+      border-radius: 999px;
+      border: 1px solid #dbe4ef;
+      background: #e8f0f8;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--theme), var(--dark));
+    }
+
+    .metric-val {
+      font-weight: 700;
+      color: #0f172a;
+      text-align: right;
+    }
+
+    .long-text {
+      color: #4b5563;
+      font-size: 14px;
+      line-height: 1.75;
+      word-break: break-word;
+    }
+
+    .quote-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .qitem {
+      border-radius: 12px;
+      background: linear-gradient(90deg, color-mix(in srgb, var(--theme) 12%, #ffffff 88%), color-mix(in srgb, var(--dark) 12%, #f9fbff 88%));
+      color: #111827;
+      font-size: 13px;
+      line-height: 1.5;
+      padding: 10px 14px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6);
+      font-weight: 500;
+    }
+
+    .footer {
+      background: linear-gradient(135deg, var(--dark), var(--theme));
+      border-radius: 16px;
+      padding: 18px 24px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      box-shadow: 0 10px 24px rgba(15,23,42,0.22);
+      min-height: 106px;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .footer-title {
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.3;
+      text-wrap: balance;
+    }
+
+    .footer-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.9);
+      line-height: 1.6;
+    }
+
+    .footer-cta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .pill {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.45);
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      line-height: 1.2;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+      backdrop-filter: blur(2px);
+      text-align: center;
+    }
+
+    .pill.accent {
+      background: #fff;
+      color: var(--dark);
+      padding: 12px 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" style="position:relative;">
+    <div class="badge">{{SCORE_LABEL}}</div>
+    <div class="layout">
+      <header class="hero">
+        <div>
+          <h2>你的看球搭子类型是</h2>
+          <h1>{{NAME_CN}}</h1>
+          <div class="name-en">{{NAME_EN}}</div>
+          <div class="meta">{{COUNTRY_CN}} | {{COUNTRY_EN}} | 球衣 {{JERSEY_NUMBER}}</div>
+        </div>
+        <div class="logo">
+          <div class="logo-icon">⚽</div>
+          <div>MatchMate</div>
+        </div>
+      </header>
+
+      <main class="main">
+        <section class="left">
+          <div class="avatar-card">
+            <div class="avatar-wrap{{AVATAR_NO_PHOTO_CLASS}}" id="avatarWrap">
+              <img src="{{PLAYER_IMAGE}}" alt="{{NAME_CN}}" onerror="this.style.display='none';document.getElementById('avatarWrap').classList.add('no-photo');" />
+              <div class="avatar-initial">{{INITIALS}}</div>
+            </div>
+            <div class="player-meta">
+              <span class="tag">{{SCORE_LABEL}}</span>
+              <span>{{TAGLINE}}</span>
+            </div>
+          </div>
+
+          <div class="intro">
+            <div class="quote">“{{TAGLINE}}”</div>
+            <div class="desc">{{TAGLINE_DESC}}</div>
+          </div>
+        </section>
+
+        <section class="right">
+          <div class="panel">
+            <div class="panel-title">六维风格雷达</div>
+            <svg class="radar-svg" viewBox="-40 -15 380 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="雷达图">
+              <g transform="translate(160,135)">
+                <polygon points="0,-36 31,-18 31,18 0,36 -31,18 -31,-18" fill="none" stroke="#E0E8F0" stroke-width="1"/>
+                <polygon points="0,-72 62,-36 62,36 0,72 -62,36 -62,-36" fill="none" stroke="#E0E8F0" stroke-width="1"/>
+                <polygon points="0,-108 94,-54 94,54 0,108 -94,54 -94,-54" fill="none" stroke="#D2DCEB" stroke-width="1"/>
+                <line x1="0" y1="0" x2="0" y2="-108" stroke="#D2E0EE" stroke-width="1"/>
+                <line x1="0" y1="0" x2="94" y2="-54" stroke="#D2E0EE" stroke-width="1"/>
+                <line x1="0" y1="0" x2="94" y2="54" stroke="#D2E0EE" stroke-width="1"/>
+                <line x1="0" y1="0" x2="0" y2="108" stroke="#D2E0EE" stroke-width="1"/>
+                <line x1="0" y1="0" x2="-94" y2="54" stroke="#D2E0EE" stroke-width="1"/>
+                <line x1="0" y1="0" x2="-94" y2="-54" stroke="#D2E0EE" stroke-width="1"/>
+                <polygon points="{{RADAR_POINTS}}" fill="var(--theme)" fill-opacity="0.25" stroke="var(--theme)" stroke-width="2.5"/>
+                {{RADAR_DOTS}}
+              </g>
+              <text x="160" y="6" text-anchor="middle" font-size="13" fill="#64748B" font-weight="500">上头指数</text>
+              <text x="278" y="78" text-anchor="start" font-size="13" fill="#64748B" font-weight="500">战术画板</text>
+              <text x="278" y="200" text-anchor="start" font-size="13" fill="#64748B" font-weight="500">群聊活跃</text>
+              <text x="160" y="262" text-anchor="middle" font-size="13" fill="#64748B" font-weight="500">戏精程度</text>
+              <text x="42" y="200" text-anchor="end" font-size="13" fill="#64748B" font-weight="500">投机心态</text>
+              <text x="42" y="78" text-anchor="end" font-size="13" fill="#64748B" font-weight="500">跟风系数</text>
+            </svg>
+            <div class="metrics">{{RADAR_METRIC_ROWS}}</div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">人格描述</div>
+            <div class="long-text">{{DESCRIPTION}}</div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">常见发言风格</div>
+            <div class="quote-list">{{QUOTES_HTML}}</div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">看球气质</div>
+            <div class="long-text">{{TEMPERAMENT}}</div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-left">
+          <div class="footer-title">下载 Floatboat，生成你的专属看球搭子。</div>
+          <div class="footer-sub">加入 Floatboat Discord，与全国球迷一起复盘比赛、晒你的测试结果，扩圈更有氛围。</div>
+        </div>
+        <div class="footer-cta">
+          <div class="pill">立即下载 Floatboat</div>
+          <div class="pill accent">加入 Discord</div>
+        </div>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>

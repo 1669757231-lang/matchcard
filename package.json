@@ -1,0 +1,23 @@
+{
+  "name": "matchmate",
+  "version": "1.0.0",
+  "description": "⚽ 看球搭子人格测试 - 找到你的2026世界杯看球搭档",
+  "main": "scripts/generate-card.js",
+  "scripts": {
+    "generate": "node scripts/generate-card.js",
+    "test": "node scripts/test-generate.js"
+  },
+  "keywords": [
+    "matchmate",
+    "world-cup-2026",
+    "football",
+    "personality-test",
+    "claude-code-skill",
+    "看球搭子"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^24.0.0"
+  }
+}
