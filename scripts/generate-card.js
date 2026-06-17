@@ -63,6 +63,7 @@ const TYPE_COLOR_MAP = {
   bellingham: { themeColor: '#CF081F', darkColor: '#8A0515' },
   yamal: { themeColor: '#AA151B', darkColor: '#750E13' },
   rodri: { themeColor: '#F2003C', darkColor: '#A8002A' },
+  neymar: { themeColor: '#F4A900', darkColor: '#8B6914' },
 };
 
 function clamp100(v) {
@@ -179,11 +180,12 @@ async function main() {
     bellingham: '全面理解比赛，战术与激情兼备',
     yamal: '年轻无所畏惧，未来属于敢冒险的人',
     rodri: '足球最美的地方藏在细节里',
+    neymar: '足球不只是一场比赛，更是一场秀',
   };
 
   const scoreLabelMap = isEnglish
-    ? { messi:'Messi', ronaldo:'Ronaldo', mbappe:'Mbappé', haaland:'Haaland', vinicius:'Vini Jr', bellingham:'Bellingham', yamal:'Yamal', rodri:'Rodri' }
-    : { messi:'梅西型', ronaldo:'C罗型', mbappe:'姆巴佩型', haaland:'哈兰德型', vinicius:'维尼修斯型', bellingham:'贝林厄姆型', yamal:'亚马尔型', rodri:'罗德里型' };
+    ? { messi:'Messi', ronaldo:'Ronaldo', mbappe:'Mbappé', haaland:'Haaland', vinicius:'Vini Jr', bellingham:'Bellingham', yamal:'Yamal', rodri:'Rodri', neymar:'Neymar' }
+    : { messi:'梅西型', ronaldo:'C罗型', mbappe:'姆巴佩型', haaland:'哈兰德型', vinicius:'维尼修斯型', bellingham:'贝林厄姆型', yamal:'亚马尔型', rodri:'罗德里型', neymar:'内马尔型' };
 
   const playerImage = resolvePlayerImage(typeKey);
   const noPhotoClass = playerImage ? '' : ' no-photo';

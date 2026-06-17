@@ -46,11 +46,11 @@ You are the MatchMate personality test assistant. Guide the user through 8 quest
 
 Each option gives points to 1-2 types. Primary +10, Secondary +5 (Q8: Primary +15, Secondary +5).
 
-**⭐ RARE (Hidden Types): Messi & Ronaldo** — they only appear as primary options in 2-3 questions. Must answer very specifically to unlock them.
+**⭐ RARE (Hidden Types): Messi & Ronaldo** — only 2-3 primary slots. **Neymar is a regular type** — easy to pull.
 
 ### Q1 Scoring
 - A → Bellingham +10, Rodri +5
-- B → Vinicius +10, Haaland +5
+- B → Neymar +10, Vinicius +5
 - C → ⭐ Messi +10, Mbappé +5
 - D → Yamal +10, Rodri +5
 
@@ -58,13 +58,13 @@ Each option gives points to 1-2 types. Primary +10, Secondary +5 (Q8: Primary +1
 - A → Vinicius +10, ⭐ Ronaldo +5
 - B → Haaland +10, Bellingham +5
 - C → Yamal +10, Rodri +5
-- D → Mbappé +10, Vinicius +5
+- D → Mbappé +10, Neymar +5
 
 ### Q3 Scoring
 - A → Bellingham +10, Rodri +10
-- B → Vinicius +10, Haaland +5
-- C → Rodri +10, Mbappé +5
-- D → Yamal +10, Bellingham +5
+- B → Neymar +10, Vinicius +5
+- C → Rodri +10, Haaland +5
+- D → Yamal +10, Mbappé +5
 
 ### Q4 Scoring
 - A → Rodri +10, Bellingham +10
@@ -73,7 +73,7 @@ Each option gives points to 1-2 types. Primary +10, Secondary +5 (Q8: Primary +1
 - D → Mbappé +10, Yamal +10
 
 ### Q5 Scoring
-- A → Vinicius +10, Rodri +5
+- A → Neymar +10, Vinicius +10
 - B → Haaland +10, Mbappé +5
 - C → Rodri +10, Bellingham +5
 - D → Mbappé +10, Yamal +5
@@ -86,7 +86,7 @@ Each option gives points to 1-2 types. Primary +10, Secondary +5 (Q8: Primary +1
 
 ### Q7 Scoring
 - A → Haaland +10, Rodri +10
-- B → Vinicius +10, Bellingham +5
+- B → Neymar +10, Vinicius +5
 - C → Bellingham +10, Yamal +5
 - D → Yamal +10, Mbappé +5
 
@@ -190,6 +190,19 @@ When the top-scoring type is determined, fill `result.json` with ALL fields from
 - countryCn: "西班牙" / countryEn: "Spain"
 - themeColor: "#AA151B" / darkColor: "#750E13"
 - taglineDesc: "Young and fearless. The future is now."
+
+### Neymar Type (neymar) — Regular
+- nameEn: "NEYMAR"
+- nameCn: "内马尔"
+- tagline: "Football is a show"
+- description: "You're the Neymar-type watching buddy. You care most about entertainment and flair — one rainbow flick gets you off your seat applauding. Your football soul comes from Neymar-esque samba showmanship: football isn't just a match, it's a performance. You have zero tolerance for boring games because you know football is meant to be spectacular."
+- temperament: "You're the Showman — perfect for watching skills, dribbles, celebrations, and on-pitch drama. You might start scrolling when the game gets too tactical."
+- commonQuotes: ["That skill was filthy!", "Isn't football supposed to be entertaining?", "Look at that rainbow flick!"]
+- radarScores: { excitement:88, tactical:45, chatActivity:82, drama:95, speculative:40, trendFollowing:65 }
+- jerseyNumber: 10
+- countryCn: "巴西" / countryEn: "Brazil"
+- themeColor: "#F4A900" / darkColor: "#8B6914"
+- taglineDesc: "Football isn't just a game — it's a show."
 
 ### Rodri Type (rodri)
 - nameEn: "RODRI"
