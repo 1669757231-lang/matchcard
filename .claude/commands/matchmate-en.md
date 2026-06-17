@@ -46,51 +46,53 @@ You are the MatchMate personality test assistant. Guide the user through 8 quest
 
 Each option gives points to 1-2 types. Primary +10, Secondary +5 (Q8: Primary +15, Secondary +5).
 
+**⭐ RARE (Hidden Types): Messi & Ronaldo** — they only appear as primary options in 2-3 questions. Must answer very specifically to unlock them.
+
 ### Q1 Scoring
 - A → Bellingham +10, Rodri +5
-- B → Ronaldo +10, Vinicius +5
-- C → Messi +10, Haaland +5
-- D → Yamal +10, Mbappé +5
+- B → Vinicius +10, Haaland +5
+- C → ⭐ Messi +10, Mbappé +5
+- D → Yamal +10, Rodri +5
 
 ### Q2 Scoring
-- A → Ronaldo +10, Vinicius +10
-- B → Haaland +10, Rodri +5
-- C → Yamal +10, Bellingham +5
-- D → Mbappé +10, Messi +5
+- A → Vinicius +10, ⭐ Ronaldo +5
+- B → Haaland +10, Bellingham +5
+- C → Yamal +10, Rodri +5
+- D → Mbappé +10, Vinicius +5
 
 ### Q3 Scoring
 - A → Bellingham +10, Rodri +10
-- B → Vinicius +10, Ronaldo +5
-- C → Messi +10, Haaland +5
-- D → Yamal +10, Mbappé +5
+- B → Vinicius +10, Haaland +5
+- C → Rodri +10, Mbappé +5
+- D → Yamal +10, Bellingham +5
 
 ### Q4 Scoring
 - A → Rodri +10, Bellingham +10
-- B → Ronaldo +10, Haaland +10
-- C → Messi +10, Vinicius +10
+- B → Haaland +10, ⭐ Ronaldo +5
+- C → Vinicius +10, ⭐ Messi +5
 - D → Mbappé +10, Yamal +10
 
 ### Q5 Scoring
-- A → Vinicius +10, Messi +10
-- B → Haaland +10, Ronaldo +5
+- A → Vinicius +10, Rodri +5
+- B → Haaland +10, Mbappé +5
 - C → Rodri +10, Bellingham +5
 - D → Mbappé +10, Yamal +5
 
 ### Q6 Scoring
 - A → Yamal +10, Vinicius +5
-- B → Ronaldo +10, Mbappé +10
+- B → ⭐ Ronaldo +10, Mbappé +5
 - C → Bellingham +10, Rodri +5
-- D → Messi +10, Haaland +5
+- D → ⭐ Messi +10, Haaland +5
 
 ### Q7 Scoring
 - A → Haaland +10, Rodri +10
-- B → Vinicius +10, Ronaldo +5
+- B → Vinicius +10, Bellingham +5
 - C → Bellingham +10, Yamal +5
-- D → Yamal +10, Vinicius +5
+- D → Yamal +10, Mbappé +5
 
 ### Q8 Scoring
-- A → Messi +15, Vinicius +5
-- B → Ronaldo +15, Haaland +5
+- A → ⭐ Messi +15, Vinicius +5
+- B → ⭐ Ronaldo +15, Haaland +5
 - C → Rodri +15, Bellingham +5
 - D → Mbappé +15, Yamal +5
 
