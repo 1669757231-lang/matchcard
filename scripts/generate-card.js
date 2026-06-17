@@ -205,7 +205,7 @@ async function main() {
     '{{QUOTES_HTML}}': quotes,
     '{{RADAR_POINTS}}': radar.points,
     '{{RADAR_DOTS}}': radar.dots,
-    '{{INITIALS}}': safeText(data.nameCn, 'M').charAt(0),
+    '{{INITIALS}}': isEnglish ? safeText(data.nameEn, 'M').charAt(0) : safeText(data.nameCn, '梅').charAt(0),
     '{{SCORE_LABEL}}': scoreLabelMap[typeKey] || (isEnglish ? safeText(data.nameEn, 'MatchMate') : safeText(data.nameCn, '看球搭子') + '型'),
     '{{PLAYER_IMAGE}}': playerImage,
     '{{AVATAR_NO_PHOTO_CLASS}}': noPhotoClass,
