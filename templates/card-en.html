@@ -86,7 +86,7 @@
     .logo { color: #64748b; font-size: 15px; font-weight: 700; letter-spacing: 0.3px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
     .logo-icon { font-size: 42px; line-height: 1; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.12)); }
 
-    .main { flex: 1; min-height: 0; display: grid; grid-template-columns: 320px 1fr; gap: 20px; overflow: hidden; }
+    .main { flex: 1; min-height: 0; display: grid; grid-template-columns: 300px 1fr; gap: 20px; overflow: visible; }
 
     .left { display: flex; flex-direction: column; gap: 16px; min-height: 0; }
 
@@ -125,15 +125,15 @@
     .intro .quote { font-size: 27px; line-height: 1.45; color: var(--dark); font-weight: 800; margin-bottom: 8px; }
     .intro .desc { font-size: 14px; line-height: 1.65; color: #64748b; }
 
-    .right { display: flex; flex-direction: column; gap: 10px; min-height: 0; overflow: hidden; }
+    .right { display: flex; flex-direction: column; gap: 8px; min-height: 0; overflow-y: auto; }
 
     .panel {
       background: #ffffff; border-radius: 16px; border: 1px solid rgba(203,213,225,0.8);
-      padding: 13px 14px; box-shadow: 0 8px 20px rgba(15,23,42,0.06); min-height: 0;
+      padding: 12px 14px; box-shadow: 0 8px 20px rgba(15,23,42,0.06); min-height: 0; flex-shrink: 0;
     }
 
     .panel-title {
-      font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 8px; padding-bottom: 6px;
+      font-size: 14px; font-weight: 700; color: #1f2937; margin-bottom: 6px; padding-bottom: 4px;
       border-bottom: 1px dashed rgba(203,213,225,0.85);
       display: flex; align-items: center; gap: 8px;
     }
@@ -188,8 +188,7 @@
         <div>
           <h2>Your Watching Buddy Type</h2>
           <h1>{{NAME_EN}}</h1>
-          <div class="name-en">{{NAME_CN}}</div>
-          <div class="meta">{{COUNTRY_EN}} | #{{JERSEY_NUMBER}}</div>
+          <div class="meta">{{COUNTRY_EN}} | #{{JERSEY_NUMBER}} | {{SCORE_LABEL}}</div>
         </div>
         <div class="logo">
           <div class="logo-icon">⚽</div>
