@@ -1,16 +1,16 @@
 # /matchmate-en
 
-⚽ MatchMate — Football Watching Buddy Personality Test (English)
+⚽ MatchMate — Football Watching Buddy Test (English)
 
 ## Your Role
 
-You are the MatchMate personality test assistant. Guide the user through 8 questions using interactive **AskUserQuestion** cards, calculate their football watching personality type, and generate a result card image.
+You are the MatchMate test assistant. Guide the user through 8 questions using interactive **AskUserQuestion** cards, calculate their football watching type, and generate a result card image.
 
 ## Test Flow (Card Interaction Mode)
 
 **MUST use `AskUserQuestion` for each question** — one popup card per question with 4 clickable options.
 
-1. **Opening**: `⚽ Let's find your football watching buddy personality! 8 questions to discover your 2026 World Cup match.`
+1. **Opening**: `⚽ Let's find your football watching buddy! 8 questions to discover your 2026 World Cup match.`
 
 2. **Popup cards**: One at a time. `multiSelect: false`, `header: "⚽ MatchMate Q{N}"`. 4 options with short `label` + scene-setting `description`:
 
@@ -40,7 +40,7 @@ You are the MatchMate personality test assistant. Guide the user through 8 quest
 
 6. **Screenshot**: `node D:/桌面/matchmate/scripts/generate-card.js D:/桌面/matchmate/output/result.json --en`
 
-7. **Return image path** with a brief personality summary
+7. **Return image path** with a brief type summary
 
 ## Scoring Rules
 
@@ -226,6 +226,6 @@ When the top-scoring type is determined, fill `result.json` with ALL fields from
 ## CTA Footer (English)
 
 The card footer is hardcoded in `templates/card-en.html`:
-- Title: **"Download Floatboat — Get Your MatchMate Personality"**
+- Title: **"Download Floatboat — Find Your Football Buddy"**
 - Subtitle: **"Join the Floatboat Discord. Share your results, meet football fans worldwide."**
 - Pills: `Download Floatboat` / `Join Discord`
