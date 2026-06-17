@@ -1,16 +1,23 @@
 /**
  * MatchMate - 结果卡片截图脚本
- * 用法: node scripts/generate-card.js <result.json路径>
+ * 用法: node scripts/generate-card.js <result.json路径> [--en]
  *
  * 读取JSON数据，填充HTML模板，用Puppeteer截图生成PNG
+ * --en 使用英文模板 card-en.html
  */
 
 const fs = require('fs');
 const path = require('path');
 const { pathToFileURL } = require('url');
 
+// === 解析参数 ===
+const args = process.argv.slice(2);
+const isEnglish = args.includes('--en');
+const jsonPath = args.find(a => !a.startsWith('--'));
+
 // === 配置 ===
-const TEMPLATE_PATH = path.join(__dirname, '..', 'templates', 'card.html');
+const TEMPLATE_NAME = isEnglish ? 'card-en.html' : 'card.html';
+const TEMPLATE_PATH = path.join(__dirname, '..', 'templates', TEMPLATE_NAME);
 const OUTPUT_DIR = path.join(__dirname, '..', 'output');
 const ASSET_DIR = path.join(__dirname, '..', 'assets', 'players');
 const CARD_WIDTH = 1080;
@@ -29,13 +36,22 @@ const RADAR_ANGLES = [
   -Math.PI / 2 + 5 * Math.PI / 3, // 跟风系数
 ];
 
-const DIMENSIONS = [
+const DIMENSIONS_CN = [
   { key: 'excitement', name: '上头指数' },
   { key: 'tactical', name: '战术画板' },
   { key: 'chatActivity', name: '群聊活跃' },
   { key: 'drama', name: '戏精程度' },
   { key: 'speculative', name: '投机心态' },
   { key: 'trendFollowing', name: '跟风系数' },
+];
+
+const DIMENSIONS_EN = [
+  { key: 'excitement', name: 'Hype' },
+  { key: 'tactical', name: 'Tactics' },
+  { key: 'chatActivity', name: 'Chatter' },
+  { key: 'drama', name: 'Drama' },
+  { key: 'speculative', name: 'Speculation' },
+  { key: 'trendFollowing', name: 'Trend' },
 ];
 
 const TYPE_COLOR_MAP = {
@@ -62,13 +78,13 @@ function getRadarPoint(score, angleIndex) {
   return { x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 };
 }
 
-function generateRadarSvg(radarScores = {}, themeColor = '#75AADB') {
-  const points = DIMENSIONS.map((item, i) => {
+function generateRadarSvg(radarScores = {}, themeColor = '#75AADB', langDims = DIMENSIONS_CN) {
+  const points = langDims.map((item, i) => {
     const pt = getRadarPoint(radarScores[item.key], i);
     return `${pt.x},${pt.y}`;
   }).join(' ');
 
-  const dots = DIMENSIONS.map((item, i) => {
+  const dots = langDims.map((item, i) => {
     const pt = getRadarPoint(radarScores[item.key], i);
     return `<circle cx="${pt.x}" cy="${pt.y}" r="4" fill="${themeColor}" stroke="white" stroke-width="2"/>`;
   }).join('\n            ');
@@ -76,8 +92,8 @@ function generateRadarSvg(radarScores = {}, themeColor = '#75AADB') {
   return { points, dots };
 }
 
-function buildMetricRows(radarScores = {}) {
-  return DIMENSIONS.map((item) => {
+function buildMetricRows(radarScores = {}, langDims = DIMENSIONS_CN) {
+  return langDims.map((item) => {
     const score = clamp100(radarScores[item.key]);
     return `
       <div class="metric-row">
@@ -132,13 +148,13 @@ function safeText(v, fallback = '') {
 }
 
 async function main() {
-  const jsonPath = process.argv[2];
-  if (!jsonPath) {
-    console.error('用法: node generate-card.js <result.json路径>');
+  const jsonPathArg = jsonPath;
+  if (!jsonPathArg) {
+    console.error('用法: node generate-card.js <result.json路径> [--en]');
     process.exit(1);
   }
 
-  const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+  const data = JSON.parse(fs.readFileSync(jsonPathArg, 'utf-8'));
 
   let html = fs.readFileSync(TEMPLATE_PATH, 'utf-8');
 
@@ -148,7 +164,8 @@ async function main() {
   const themeColor = safeText(data.themeColor, colors.themeColor || '#75AADB');
   const darkColor = safeText(data.darkColor, colors.darkColor || '#1A3C7A');
 
-  const radar = generateRadarSvg(data.radarScores || {}, themeColor);
+  const langDims = isEnglish ? DIMENSIONS_EN : DIMENSIONS_CN;
+  const radar = generateRadarSvg(data.radarScores || {}, themeColor, langDims);
   const quotes = Array.isArray(data.commonQuotes)
     ? data.commonQuotes.map((q) => `<div class="qitem">${q}</div>`).join('\n            ')
     : '';
@@ -164,16 +181,9 @@ async function main() {
     rodri: '足球最美的地方藏在细节里',
   };
 
-  const scoreLabelMap = {
-    messi: '梅西型',
-    ronaldo: 'C罗型',
-    mbappe: '姆巴佩型',
-    haaland: '哈兰德型',
-    vinicius: '维尼修斯型',
-    bellingham: '贝林厄姆型',
-    yamal: '亚马尔型',
-    rodri: '罗德里型',
-  };
+  const scoreLabelMap = isEnglish
+    ? { messi:'Messi', ronaldo:'Ronaldo', mbappe:'Mbappé', haaland:'Haaland', vinicius:'Vini Jr', bellingham:'Bellingham', yamal:'Yamal', rodri:'Rodri' }
+    : { messi:'梅西型', ronaldo:'C罗型', mbappe:'姆巴佩型', haaland:'哈兰德型', vinicius:'维尼修斯型', bellingham:'贝林厄姆型', yamal:'亚马尔型', rodri:'罗德里型' };
 
   const playerImage = resolvePlayerImage(typeKey);
   const noPhotoClass = playerImage ? '' : ' no-photo';
@@ -196,10 +206,10 @@ async function main() {
     '{{RADAR_POINTS}}': radar.points,
     '{{RADAR_DOTS}}': radar.dots,
     '{{INITIALS}}': safeText(data.nameCn, 'M').charAt(0),
-    '{{SCORE_LABEL}}': scoreLabelMap[typeKey] || safeText(data.nameCn, '看球搭子') + '型',
+    '{{SCORE_LABEL}}': scoreLabelMap[typeKey] || (isEnglish ? safeText(data.nameEn, 'MatchMate') : safeText(data.nameCn, '看球搭子') + '型'),
     '{{PLAYER_IMAGE}}': playerImage,
     '{{AVATAR_NO_PHOTO_CLASS}}': noPhotoClass,
-    '{{RADAR_METRIC_ROWS}}': buildMetricRows(data.radarScores || {}),
+    '{{RADAR_METRIC_ROWS}}': buildMetricRows(data.radarScores || {}, langDims),
   };
 
   for (const [placeholder, value] of Object.entries(replacements)) {
@@ -237,7 +247,8 @@ async function main() {
   await page.evaluateHandle('document.fonts.ready');
 
   const timestamp = Date.now();
-  const outputPath = path.join(OUTPUT_DIR, `matchmate-${typeKey || 'result'}-${timestamp}.png`);
+  const langSuffix = isEnglish ? '-en' : '';
+  const outputPath = path.join(OUTPUT_DIR, `matchmate-${typeKey || 'result'}${langSuffix}-${timestamp}.png`);
 
   const cardElement = await page.$('.card');
   if (cardElement) {
