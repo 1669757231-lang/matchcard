@@ -1,16 +1,13 @@
-# ⚽ MatchMate - 看球搭子人格测试
+# ⚽ MatchMate — Football Watching Buddy Personality Test
 
-> 找到你的2026世界杯看球搭档！基于真实球员角色与看球心理的 MBTI 风格测试。
-
-## 🎮 在 Claude Code 中使用
-
-### 安装
+> 8 interactive card-style questions. Find your 2026 World Cup spirit player. Auto-generates a shareable 3:4 result card.
+>
+> **🌐 Bilingual out of the box — Chinese `/matchmate` + English `/matchmate-en` — one install, both ready.**
 
 ```bash
-cd D:/桌面/matchmate
-
-# 安装依赖（Puppeteer，用于生成结果卡片图片）
-npm install
+git clone https://github.com/1669757231-lang/matchcard.git
+cd matchcard && npm install
+# Claude Code auto-discovers both slash commands
 ```
 
 ### 使用
